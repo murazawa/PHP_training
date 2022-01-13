@@ -7,7 +7,7 @@
 <p>CSVをデータベースに登録します</p>
 
 <form action="#" method="post">
-  <p><input type="file" name="csv"/></p>
+  <p><input type="file" name="csv_file"/></p>
   <!--hiddenあとで-->
   <p><button>アップロード</button></p>
 </form>
