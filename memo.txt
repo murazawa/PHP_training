@@ -2,3 +2,8 @@
 https://wp.tech-style.info/archives/138
 https://wepicks.net/phpsample-preg-filename/
 
+
+POST時 バリデーションチェック
+参考になりそうなやつ
+https://techacademy.jp/magazine/49322
+empty
