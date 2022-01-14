@@ -1,9 +1,5 @@
 <?php
-function checkFile($filename){
-  // 拡張子チェック
-  if(preg_match('/.csv/', $filename)){
-    echo 'データをアップロードします。</br>';
-  } else {
-    echo '選択したファイルはCSVではありません。<br/>';
-  }
+
+function h($string){
+  return htmlspecialchars($string, ENT_QUOTES, 'utf-8');
 }
