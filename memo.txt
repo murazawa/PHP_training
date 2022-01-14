@@ -1,0 +1,4 @@
+拡張子チェック参考記事
+https://wp.tech-style.info/archives/138
+https://wepicks.net/phpsample-preg-filename/
+
