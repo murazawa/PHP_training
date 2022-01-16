@@ -18,7 +18,7 @@ try {
   var_dump($age);
   var_dump($gender);
   // INSERT文を変数に格納。:名前や:年齢はプレースホルダという、値を入れるための単なる空箱
-  $sql = 'INSERT INTO phpcsv ("名前", "年齢", "性別") VALUES (?, ?, ?)';
+  $sql = 'INSERT INTO phpcsv ("名前", "年齢", ":性別") VALUES (?, ?, ?)';
   $stmt = $PDO->prepare($sql); // 挿入する値は空のまま、SQL実行の準備する
   $stmt->bindValue(':名前', $name, PDO::PARAM_STR);
   $stmt->bindValue(':年齢', $age, PDO::PARAM_INT);
