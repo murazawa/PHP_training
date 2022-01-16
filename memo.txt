@@ -6,4 +6,11 @@ https://wepicks.net/phpsample-preg-filename/
 POST時 バリデーションチェック
 参考になりそうなやつ
 https://techacademy.jp/magazine/49322
-empty
+
+
+
+
+host: db
+database: myapp
+user: dbuser
+pass: dbpass

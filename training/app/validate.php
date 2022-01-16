@@ -4,6 +4,7 @@
     // 拡張子チェック
     if(preg_match('/.csv/', $filename)){
       echo 'データをアップロードしました。</br>';
+
     } else {
       echo '選択したファイルはCSVではありません。<br/>';
     }
