@@ -1,23 +1,13 @@
 <?php
   try
   {
-    $PDO = new PDO('mysql:host=localhost:8889;dbname=myapp;charset=utf8','root','root');
+    $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+    // $PDO = new PDO('mysql:host=localhost:8889;dbname=myapp;charset=utf8','root','root'); // MAMP環境
     echo 'DBに接続したよ</br>';
   } catch  (PDOException $e) {
     echo 'DB接続エラー:'.$e->getMessage();
   }
 
-  // $ret = $pdo->query('INSERT INTO phpcsv (名前, 年齢, 性別) VALUES ("山田太郎", 36, "男")');
-  // if ($ret):
-  //   echo 'データを挿入しました';
-  // else:
-  //   echo $pdo->error;
-  // endif;
-
-
-
-
-  // INSERT INTO `phpcsv`(`名前`, `年齢`, `性別`) VALUES ('佐々木太郎',23,'男')
 
   require ('../app/functions.php');
   require ('../app/validate.php');
@@ -29,14 +19,11 @@
 
 <p>CSVをデータベースに登録します</p>
 
-<form action="results.php" method="post">
-  <p><input type="text" name="name"/></p>
-  <p><input type="text" name="age"/></p>
-  <p><input type="text" name="gender"/></p>
+<form action="results.php" method="post" enctype="multipart/form-data">
 
-  <!-- <p><input type="file" name=""/></p> -->
+  <p><input type="file" name="csvfile"/></p>
   <!--hiddenあとで-->
-  <p><button type="submit">アップロード</button></p>
+  <p><input type="submit" value="アップロード"></p>
 </form>
 
 
