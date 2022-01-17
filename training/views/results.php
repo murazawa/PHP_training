@@ -12,48 +12,55 @@ ini_set('display_errors', "On");
 
   try
   {
-    $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
-    // $PDO = new PDO('mysql:host=localhost:8889;dbname=myapp;charset=utf8','root','root'); // MAMP環境
-  
-    if (isset($_FILE["csvfile"]["tmp_name"]))
+    // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+    $PDO = new PDO('mysql:host=localhost:8889;dbname=myapp;charset=utf8','root','root'); // MAMP環境
+
+    if (isset($_FILES["csvfile"]["tmp_name"]))
     {
       $file_tmp_name = $_FILES["csvfile"]["tmp_name"];
-      $file_name = $FILES["csvfile"]["name"];
-  
+      $file_name = $_FILES["csvfile"]["name"];
+
       if (pathinfo($file_name, PATHINFO_EXTENSION) != 'csv')
       {
         $err_msg = 'CSVのみ対応しています';
       } else {
-        if (move_uploaded_file($file_tmp_name, "../data/".$file_name))
-        {
-          chmod("../data".$file_name, 0644);
-          $msg = $file_name."をアップロードしました。";
-          $file = '../data/'.$file_name;
-          $fp = fopen($file, "r");
-  
+          $fp = fopen($file_tmp_name, "r");
+
           // 配列に変換する
-          while (($data = fgetcsv($fp, 0, ", ")) !== FALSE)
+          $csv_data = [];
+          while (($data = fgetcsv($fp)) !== FALSE)
           {
-            $asins[] = $data;
+            $csv_data[] = $data;
           }
           fclose($fp);
-          unlink('../data/'.$file_name);
-        } else {
-          $err_msg = "ファイルをアップロードできません。";
-        }
+
+        // if (move_uploaded_file($file_tmp_name, "../data/".$file_name))
+        // {
+        //   chmod("../data".$file_name, 0644);
+        //   $msg = $file_name."をアップロードしました。";
+        //   $file = '../data/'.$file_name;
+        //   $fp = fopen($file, "r");
+
+        //   // 配列に変換する
+        //   while (($data = fgetcsv($fp, 0, ", ")) !== FALSE)
+        //   {
+        //     $asins[] = $data;
+        //   }
+        //   fclose($fp);
+        //   unlink('../data/'.$file_name);
+        // } else {
+        //   $err_msg = "ファイルをアップロードできません。";
+        // }
       }
     } else {
       $err_msg = "ファイルが選択されていません。";
     }
-    
-  
-  
-    echo 'DBに接続したよ</br>';
+
+    echo 'DBに接続したよresult.php</br>';
+    echo $err_msg;
   } catch  (PDOException $e) {
     echo 'DB接続エラー:'.$e->getMessage();
   }
-  
-  
 
 
 
