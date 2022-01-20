@@ -1,17 +1,17 @@
 <?php
-ini_set('display_errors', "On");
 
+ini_set('display_errors', "On");
+include('../app/_parts/_header.php');
+require('../app/functions.php');
   try
   {
     $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
     // $PDO = new PDO('mysql:host=localhost:8889;dbname=myapp;charset=utf8','root','root'); // MAMP環境
-
-    include('../app/_parts/_header.php');
-    // require ('../app/functions.php');
     // require ('../app/validate.php');
-    
+    // require('../app/resultbtn.php');
     // トランザクション処理
     $PDO->beginTransaction();
+
 
     $err_msg= "";
 
@@ -59,15 +59,44 @@ ini_set('display_errors', "On");
           }
           
           fclose($fp);  
-          echo 'アップロードに成功しました。';       
+          echo 'アップロードに成功しました。</br>';     
       }
     } else {
       $err_msg = 'ファイルを選択してください。';
     }
     echo $err_msg;
     echo 'DBに接続したよresult.php</br>';
+    $result = 'SELECT * FROM phpcsv';
+    $csv_stmt = $PDO->query($result);
+
     $PDO->commit();
   } catch  (PDOException $e) {
     $PDO->rollback();
     echo 'DB接続エラー:'.$e->getMessage();
   }
+?>
+<?php function csvData(){
+  $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+  $result = 'SELECT * FROM phpcsv';
+  $csv_stmt = $PDO->query($result);
+
+  echo '<table border="1">';
+  echo '<tr>';
+  echo '<th>名前</th>';
+  echo '<th>年齢</th>';
+  echo '<th>性別</th>';
+  echo '</tr>';
+  foreach ($csv_stmt as $csvdata) {
+    echo '<tr>';
+    echo '<td>'.$csvdata["name"].'</td>';
+    echo '<td>'.$csvdata["age"].'</td>';
+    echo '<td>'.$csvdata["gender"].'</td>';
+    echo '</tr>';
+  }
+  echo '</table>';
+}
+?>
+<button onclick="csvData();"> 結果を表示 </button>
+
+<?php
+  include('../app/_parts/_footer.php');
