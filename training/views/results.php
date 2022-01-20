@@ -97,10 +97,19 @@ require('../app/functions.php');
     echo '</tr>';
   }
   echo '</table>';
+  echo '<form action="mail.php" method="post">';
+  echo '<p><input type="email" name="email" placeholder="メールアドレスを入力してくだい"></p>';
+  echo '<p><input type="submit" value="結果をメールで送信"></p>';
+  echo '</form>';
+
 }
 
 ?>
 <!--////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!-- <form action="mail.php" method="post">
+  <p><input type="email" name="email" placeholder="メールアドレスを入力してくだい"></p>
+  <p><input type="submit" value="結果をメールで送信"></p>
+</form> -->
 
 
 <form action="results.php" method="post">
