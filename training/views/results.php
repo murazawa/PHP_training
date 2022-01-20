@@ -5,8 +5,8 @@ include('../app/_parts/_header.php');
 require('../app/functions.php');
   try
   {
-    $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
-    // $PDO = new PDO('mysql:host=localhost:8889;dbname=myapp;charset=utf8','root','root'); // MAMP環境
+    // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+    $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
     // require ('../app/validate.php');
     // require('../app/resultbtn.php');
     // トランザクション処理
@@ -57,9 +57,9 @@ require('../app/functions.php');
               $stmt->bindParam(3, $data[3], PDO::PARAM_STR);
               $stmt->execute();
           }
-          
-          fclose($fp);  
-          echo 'アップロードに成功しました。</br>';     
+
+          fclose($fp);
+          echo 'アップロードに成功しました。</br>';
       }
     } else {
       $err_msg = 'ファイルを選択してください。';
@@ -75,11 +75,14 @@ require('../app/functions.php');
     echo 'DB接続エラー:'.$e->getMessage();
   }
 ?>
+
+<!--////////////////////////////////////////////////////////////////////////////////////////////////-->
 <?php function csvData(){
-  $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+  // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+  $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
+
   $result = 'SELECT * FROM phpcsv';
   $csv_stmt = $PDO->query($result);
-
   echo '<table border="1">';
   echo '<tr>';
   echo '<th>名前</th>';
@@ -95,8 +98,26 @@ require('../app/functions.php');
   }
   echo '</table>';
 }
+
 ?>
-<button onclick="csvData();"> 結果を表示 </button>
+<!--////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+
+<form action="results.php" method="post">
+  <p><input type="submit" name="table" value="結果を表示"/></p>
+  <!--hiddenあとで-->
+</form>
+
+
+<?php
+  $table = "";
+  if (isset($_POST['table'])) {
+    $table = csvData();
+  }
+?>
+
+
+<!-- <button onclick="csvData();"> 結果を表示 </button> -->
 
 <?php
   include('../app/_parts/_footer.php');
