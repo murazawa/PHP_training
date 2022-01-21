@@ -5,8 +5,8 @@ include('../app/_parts/_header.php');
 require('../app/functions.php');
   try
   {
-    // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
-    $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
+    $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+    // $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
     // require ('../app/validate.php');
     // require('../app/resultbtn.php');
     // トランザクション処理
@@ -78,8 +78,8 @@ require('../app/functions.php');
 
 <!--////////////////////////////////////////////////////////////////////////////////////////////////-->
 <?php function csvData(){
-  // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
-  $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
+  $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+  // $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
 
   $result = 'SELECT * FROM phpcsv';
   $csv_stmt = $PDO->query($result);
@@ -97,8 +97,16 @@ require('../app/functions.php');
     echo '</tr>';
   }
   echo '</table>';
+
+
+  // メールフォーム //
   echo '<form action="mail.php" method="post">';
+
+  // 宛先
   echo '<p><input type="email" name="email" placeholder="メールアドレスを入力してくだい"></p>';
+
+  // 件名
+  echo '<input type="hidden" name="subject" value="CSVファイル送付">';
   echo '<p><input type="submit" value="結果をメールで送信"></p>';
   echo '</form>';
 
@@ -111,7 +119,7 @@ require('../app/functions.php');
   <p><input type="submit" value="結果をメールで送信"></p>
 </form> -->
 
-
+<p>結果表示ボタンを押下して内容をご確認ください。</p>
 <form action="results.php" method="post">
   <p><input type="submit" name="table" value="結果を表示"/></p>
   <!--hiddenあとで-->
@@ -125,7 +133,7 @@ require('../app/functions.php');
   }
 ?>
 
-
+<!-- <input type="hidden" name="message"> -->
 <!-- <button onclick="csvData();"> 結果を表示 </button> -->
 
 <?php
