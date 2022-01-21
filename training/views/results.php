@@ -106,8 +106,10 @@ require('../app/functions.php');
   echo '<p><input type="email" name="email" placeholder="メールアドレスを入力してくだい"></p>';
 
   // 件名
-  echo '<input type="hidden" name="subject" value="CSVファイル送付">';
+  echo '<input type="text" name="subject" value="CSVファイル送付">';
+  echo '<input type="text" name="message" value="ががががががが">';
   echo '<p><input type="submit" value="結果をメールで送信"></p>';
+  
   echo '</form>';
 
 }
