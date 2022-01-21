@@ -7,7 +7,7 @@
 
   $to = $_POST['email'];
   $subject = $_POST['subject'];
-  $message = $_POST['message'];
+  $message = 'がががががが'."\r\n".'ごごごごごごご';
   $headers = "From: info@gamil.jp";
   if(mb_send_mail($to, $subject, $message, $headers)){
     echo '<p>アップロードしたデータをメールでお送りました。</p>';
@@ -15,19 +15,8 @@
     echo '<p>メールの送信に失敗しました。</p>';
   }
 
-
-
-
 ?>
 
-
-<?php
-if(mb_send_mail('mura.hi0115ki@gmail.com', 'メール送信テストタイトル', 'メール送信テスト：本文')) {
-    echo "送信完了";
-} else {
-    echo "送信失敗";
-}
-?>
 
 <?php
   include('../app/_parts/_footer.php');
