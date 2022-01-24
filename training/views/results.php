@@ -5,8 +5,8 @@ include('../app/_parts/_header.php');
 require('../app/functions.php');
   try
   {
-    $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
-    // $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
+    // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+    $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
     // require ('../app/validate.php');
     // require('../app/resultbtn.php');
     // トランザクション処理
@@ -78,8 +78,8 @@ require('../app/functions.php');
 
 <!--////////////////////////////////////////////////////////////////////////////////////////////////-->
 <?php function csvData(){
-  $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
-  // $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
+  // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+  $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
 
   $result = 'SELECT * FROM phpcsv';
   $csv_stmt = $PDO->query($result);
@@ -108,7 +108,7 @@ require('../app/functions.php');
   // 件名
   echo '<input type="hidden" name="subject" value="CSVファイル送付">';
   echo '<p><input type="submit" value="結果をメールで送信"></p>';
-  
+
   echo '</form>';
 
 }
