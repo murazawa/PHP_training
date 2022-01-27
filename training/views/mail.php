@@ -21,9 +21,12 @@
 
 
 
+ 
 
 
-  if(mb_send_mail($to, $subject, $message, $headers)){
+
+
+  if(mb_send_mail($to, $subject, $message, $headers, $addheader)){
     echo '<p>アップロードしたデータをメールでお送りました。</p>';
   } else {
     echo '<p>メールの送信に失敗しました。</p>';
