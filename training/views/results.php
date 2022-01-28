@@ -139,3 +139,4 @@ require('../app/functions.php');
 
 <?php
   include('../app/_parts/_footer.php');
+
