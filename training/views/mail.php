@@ -30,7 +30,6 @@
 
 
 
-
   $filename = mb_convert_encoding($filename, 'ISO-2022-JP');
   $filename = "=?ISO-2022-JP?B?" . base64_encode($filename) . "?=";
   $body .= "--{$boundary}\n";
