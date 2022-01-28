@@ -1,23 +1,59 @@
 <?php
   include('../app/_parts/_header.php');
   ini_set('display_errors', "On");
-  $file = 'テスト.txt';
 
-  mb_language("Japanese");
-  mb_internal_encoding("UTF-8");
-  $headers = "From: info@gamil.jp"; // ヘッダー設定
+
   $to = $_POST['email']; // 宛先
   $subject = $_POST['subject']; // 件名
   $message = 'がががががが'."\r\n".'ごごごごごごご'; // 本文
-	$message .= "Content-Type: text/plain; charset=\"ISO-2022-JP\"\r\n\r\n";
+  $filename = 'テスト.txt';
 
-	// ファイルを添付
-	$message .= "Content-Type: application/octet-stream; name=\"{$file}\"\r\n";
-	$message .= "Content-Disposition: attachment; filename=\"{$file}\"\r\n";
-	$message .= "Content-Transfer-Encoding: base64\r\n";
-	$message .= "\r\n";
-	$message .= chunk_split(file_get_contents($file));
-	// $message .= "--__BOUNDARY__--";
+
+  mb_language("ja");
+  mb_internal_encoding("utf-8");
+
+  $mime_type = "application/octet-stream";
+  $boundary = '----=_Boundary_' . uniqid(rand(1000,9999) . '_') . '_';
+  $head  = "From: " . mb_encode_mimeheader(mb_convert_encoding($from_name,"ISO-2022-JP")) . "<" . $from . "> \n";
+  $head .= "MIME-Version: 1.0\n";
+  $head .= "Content-Type: multipart/mixed; boundary=\"{$boundary}\"\n";
+  $head .= "Content-Transfer-Encoding: 7bit";
+
+
+  $body .= "--{$boundary}\n";
+  $body .= "Content-Type: text/plain; charset=ISO-2022-JP;" .
+      "Content-Transfer-Encoding: 7bit\n";
+  $body .= "\n";
+  $body .= "{$message}\n";
+  $body .= "\n";
+
+
+
+
+
+  $filename = mb_convert_encoding($filename, 'ISO-2022-JP');
+  $filename = "=?ISO-2022-JP?B?" . base64_encode($filename) . "?=";
+  $body .= "--{$boundary}\n";
+  $body .= "Content-Type: {$mime_type}; name=\"{$filename}\"\n" .
+      "Content-Transfer-Encoding: base64\n" .
+      "Content-Disposition: attachment; filename=\"{$filename}\"\n\n";
+  $f_encoded = chunk_split(base64_encode($filebody));
+  $body .= $f_encoded . "\n\n";
+
+
+  // $headers = "From: info@gamil.jp"; // ヘッダー設定
+  //
+  //
+  //
+	// $message .= "Content-Type: text/plain; charset=\"ISO-2022-JP\"\r\n\r\n";
+
+	// // ファイルを添付
+	// $message .= "Content-Type: application/octet-stream; name=\"{$file}\"\r\n";
+	// $message .= "Content-Disposition: attachment; filename=\"{$file}\"\r\n";
+	// $message .= "Content-Transfer-Encoding: base64\r\n";
+	// $message .= "\r\n";
+	// $message .= chunk_split(file_get_contents($file));
+	// // $message .= "--__BOUNDARY__--";
 
 
 
@@ -26,7 +62,7 @@
 
 
 
-  if(mb_send_mail($to, $subject, $message, $headers, $addheader)){
+  if(mb_send_mail($to, $subject, $body, $head)){
     echo '<p>アップロードしたデータをメールでお送りました。</p>';
   } else {
     echo '<p>メールの送信に失敗しました。</p>';
