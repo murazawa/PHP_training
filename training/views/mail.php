@@ -27,7 +27,7 @@
   $body .= "{$message}\n";
   $body .= "\n";
 
-
+  // text/plain	テキストファイル
 
 
   $filename = mb_convert_encoding($filename, 'ISO-2022-JP');
