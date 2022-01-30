@@ -6,7 +6,7 @@
   $to = $_POST['email']; // 宛先
   $subject = $_POST['subject']; // 件名
   $message = 'がががががが'."\r\n".'ごごごごごごご'; // 本文
-  $filename = 'テスト.txt';
+  $filename = 'テストabc.txt';
 
 
   mb_language("ja");
