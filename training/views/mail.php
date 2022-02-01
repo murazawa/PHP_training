@@ -7,20 +7,22 @@
     // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
     $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
 
-    // CSVファイルのヘッダー名の定義
     $filename = "sample_file.txt";
-    // $export_csv_title = ["id", "name", "age", "gender"];
     $export_sql = 'SELECT * FROM phpcsv';
 
     $mail_stmt = $PDO->query($export_sql);
     $list = $mail_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
     $fp = fopen($filename, "w");
 
-    if (flock($fp, LOCK_EX)) {  // 排他ロックを確保します
-      ftruncate($fp, 0);      // ファイルを切り詰めます
-      fwrite($fp, "名前"." "."年齢"." "."性別"." "."\n");
-      fflush($fp);            // 出力をフラッシュしてからロックを解放します
-      flock($fp, LOCK_UN);    // ロックを解放します
+
+    // テキストファイルのヘッダー名の定義
+    if (flock($fp, LOCK_EX)) {  //                      排他ロックを確保
+      ftruncate($fp, 0);      //                        ファイルを切り詰めます
+      fwrite($fp, "名前"." "."年齢"." "."性別"." "."\n"); // fwriteを使って書く
+      fflush($fp);            //                        出力をフラッシュしてからロックを解放します
+      flock($fp, LOCK_UN);    //                        ロックを解放します
     }
 
 
@@ -28,38 +30,10 @@
       fwrite($fp, $value["name"]." ");
       fwrite($fp, $value["age"]." ");
       fwrite($fp, $value["gender"]." "."\n");
-
     }
-    // var_dump($list);
-    // ecodeing title into SJIS-win
-    // foreach($mail_stmt as $value){
-    //   // $export = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
-    //   echo $value["name"].PHP_EOL;
-    //   echo $value["age"].PHP_EOL;
-    //   echo $value["gender"].PHP_EOL;
-    // }
 
-    // ファイル書き込み出力
-
-    // $fp = fopen($filename, "w");
-    //   // 出力するCSVにヘッダーを書き込む
-    //   // fputcsv($fp, $export_header);
-    //   fputcsv($fp, $export);
-    //   // データベースを検索
-
-
-
-
-
-
-    // file_put_contents($filename, $list["name"]);
-    // file_put_contents($filename, $value["gender"]);
-    // // 検索結果をCSVに書き込む（SJIS-winに変換するコードに後々更新する）
-      // $list = $mail_stmt->fetchAll(PDO::FETCH_ASSOC);
-      // print_r($list);
-      // var_dump($list);
-      echo 'ファイルを更新しました';
-      fclose($fp);
+    echo 'ファイルを更新しました';
+    fclose($fp);
 
 
 
