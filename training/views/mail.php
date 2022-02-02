@@ -7,13 +7,16 @@
     // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
     $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
 
+
+//////////////////////////////////////////////////////////////////////////
+///////////////////  DBからファイルに書き込み  ///////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+
     $filename = "sample_file.txt";
     $export_sql = 'SELECT * FROM phpcsv';
-
     $mail_stmt = $PDO->query($export_sql);
     $list = $mail_stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
     $fp = fopen($filename, "w");
 
 
@@ -33,7 +36,6 @@
     }
 
     echo 'ファイルを更新しました';
-    fclose($fp);
 
 
 
@@ -44,12 +46,14 @@
   }
 
 
-
-  exit;
+//////////////////////////////////////////////////////////////////////////
+///////////////////  メールファイル添付機能  /////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
   $to = $_POST['email']; // 宛先
   $subject = $_POST['subject']; // 件名
   $message = 'がががががが'."\r\n".'ごごごごごごご'; // 本文
-  // $filename = 'テストabc.txt';
+  // $filename = 'sample_file.txt';
 
 
   mb_language("ja");
@@ -73,14 +77,10 @@
   // text/plain	テキストファイル
 
 
-  $filename = mb_convert_encoding($filename, 'ISO-2022-JP');
-  $filename = "=?ISO-2022-JP?B?" . base64_encode($filename) . "?=";
   $body .= "--{$boundary}\n";
   $body .= "Content-Type: {$mime_type}; name=\"{$filename}\"\n" .
       "Content-Transfer-Encoding: base64\n" .
       "Content-Disposition: attachment; filename=\"{$filename}\"\n\n";
-  // $f_encoded = chunk_split(base64_encode($filebody));
-  // $body .= $f_encoded . "\n\n";
 
 
   if(mb_send_mail($to, $subject, $body, $head)){
@@ -88,7 +88,7 @@
   } else {
     echo '<p>メールの送信に失敗しました。</p>';
   }
-
+  fclose($fp);
 ?>
 
 
