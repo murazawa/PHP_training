@@ -61,11 +61,16 @@
 
   $mime_type = "application/octet-stream";
   $boundary = '----=_Boundary_' . uniqid(rand(1000,9999) . '_') . '_';
-  // $head  = "From: " . mb_encode_mimeheader(mb_convert_encoding($from_name,"ISO-2022-JP")) . "<" . $from . "> \n";
   $head = "MIME-Version: 1.0\n";
   $head .= "Content-Type: multipart/mixed; boundary=\"{$boundary}\"\n";
   $head .= "Content-Transfer-Encoding: 7bit";
 
+
+////////////// 次するとき//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+//////////// https://qiita.com/P2eFR6RU/items/82c04966594a255de62a //////////////
+/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////これ見る/////////////////////////////////////////////////
 
   $body = "--{$boundary}\n";
   $body .= "Content-Type: text/plain; charset=ISO-2022-JP;" .
