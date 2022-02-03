@@ -53,17 +53,15 @@
   $to = $_POST['email']; // 宛先
   $subject = $_POST['subject']; // 件名
   $message = 'がががががが'."\r\n".'ごごごごごごご'; // 本文
-  // $filename = 'sample_file.txt';
-
 
   mb_language("ja");
   mb_internal_encoding("utf-8");
 
-  $mime_type = "application/octet-stream";
   $boundary = '----=_Boundary_' . uniqid(rand(1000,9999) . '_') . '_';
-  $head = "MIME-Version: 1.0\n";
-  $head .= "Content-Type: multipart/mixed; boundary=\"{$boundary}\"\n";
-  $head .= "Content-Transfer-Encoding: 7bit";
+  $head = "From: 送信元メールアドレス\r\n";
+  $head .= "MIME-Version: 1.0\n";
+  $head .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\n";
+  $head .= "\n";
 
 
 ////////////// 次するとき//////////////////////////////////////////////////////////
@@ -72,20 +70,27 @@
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////これ見る/////////////////////////////////////////////////
 
-  $body = "--{$boundary}\n";
-  $body .= "Content-Type: text/plain; charset=ISO-2022-JP;" .
-      "Content-Transfer-Encoding: 7bit\n";
+  $body = "--$boundary\n";
+  $body .= "Content-Type: text/plain; charset=\"ISO-2022-JP\"\n";
   $body .= "\n";
-  $body .= "{$message}\n";
-  $body .= "\n";
+  $body .= "$message\n";
+  $body = "--$boundary\n";
+
 
   // text/plain	テキストファイル
+  $handle = fopen($filename, 'r');
+  $attachFile = fread($handle, filesize($filename));
+  fclose($handle);
+  $attachEncode = base64_encode($attachFile);
 
 
+
+  $body .= "Content-Type: text/plain; name=\"$filename\"\n";
+  $body .= "Content-Transfer-Encoding: base64\n";
+  $body .= "Content-Disposition: attachment; filename=\"$filename\"\n";
+  $body .= "\n";
+  $body .= chunk_split($attachEncode) . "\n";
   $body .= "--{$boundary}\n";
-  $body .= "Content-Type: {$mime_type}; name=\"{$filename}\"\n" .
-      "Content-Transfer-Encoding: base64\n" .
-      "Content-Disposition: attachment; filename=\"{$filename}\"\n\n";
 
 
   if(mb_send_mail($to, $subject, $body, $head)){
