@@ -13,17 +13,33 @@ require('../app/functions.php');
     $PDO->beginTransaction();
 
 
+
+      date_default_timezone_set('Asia/Tokyo');
+      date_default_timezone_get();
+      // echo date("Y-m-d H:i:s");
+
+// exit;
+
+    $done = '../done/';
+    $error = '../error/';
     $err_msg= "";
 
-    if (!empty($_FILES["csvfile"]["tmp_name"]))
+    if (!empty($_FILES["csvfile"]["tmp_name"]) && is_uploaded_file($_FILES["csvfile"]["tmp_name"]))
     {
       $file_tmp_name = $_FILES["csvfile"]["tmp_name"];
       $file_name = $_FILES["csvfile"]["name"];
 
+
+
+
+
 ////////////////////////////// 拡張子チェック /////////////////////////////////////////////////////////////
       if (pathinfo($file_name, PATHINFO_EXTENSION) != 'csv')
       {
-        $err_msg = '選択ファイルには、CSVタイプのファイルを指定してください。';
+        if (move_uploaded_file($_FILES["csvfile"]["tmp_name"], $error.'３列方式拡張子失敗_'.date("Y-m-d H:i:s").'.txt')) {
+          echo '選択ファイルには、CSVタイプのファイルを指定してください。';
+        }
+        exit;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
       } else {
 
@@ -35,15 +51,20 @@ require('../app/functions.php');
           {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////// キーチェック //////////////////////////////////////////////////////////////////
-            if ($data[1] == "" || $data[2] == "")
-            {
-              exit ('名前、年齢は必須項目です。');
+            if ($data[1] == "" || $data[2] == "") {
+              if (move_uploaded_file($_FILES["csvfile"]["tmp_name"], $error.'３列正式名前、年齢失敗_'.date("Y-m-d H:i:s").'.csv')) {
+                echo '名前、年齢は必須項目です。';
+              }
+              exit;
             }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// フォーマットチェック /////////////////////////////////////////////////////////////
             if (isset($data[4]))
             {
-              exit ('正しいフォーマットで入力してください。');
+              if (move_uploaded_file($_FILES["csvfile"]["tmp_name"], $error.'３列正式フォーマット失敗_'.date("Y-m-d H:i:s").'.csv')) {
+                echo '正しいフォーマットで入力してください。';
+              }
+              exit;
             }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +80,19 @@ require('../app/functions.php');
           }
 
           fclose($fp);
+
+
+
+
+
+
+          if (move_uploaded_file($_FILES["csvfile"]["tmp_name"], $done.'３列正式_'.date("Y-m-d H:i:s").'.csv')) { // $done.'３列正式.csv'  ３列正式.csvという名前に変更して保存
+            echo 'アップロードされたファイルが保存できました。';
+          } else {
+            echo '失敗.....';
+          }
+
+
           echo 'アップロードに成功しました。</br>';
       }
     } else {
