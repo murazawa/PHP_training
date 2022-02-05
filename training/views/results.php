@@ -1,8 +1,72 @@
 <?php
 
-ini_set('display_errors', "On");
-include('../app/_parts/_header.php');
-require('../app/functions.php');
+  ini_set('display_errors', "On");
+  include('../app/_parts/_header.php');
+  require('../app/functions.php');
+?>
+<!--////////////////////////////////////////////////////////////////////////////////////////////////-->
+<?php
+
+
+  function csvData(){
+  // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+    $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
+
+    $result = 'SELECT * FROM phpcsv';
+    $csv_stmt = $PDO->query($result);
+    echo '<table border="1">';
+    echo '<tr>';
+    echo '<th>名前</th>';
+    echo '<th>年齢</th>';
+    echo '<th>性別</th>';
+    echo '</tr>';
+    foreach ($csv_stmt as $csvdata) {
+      echo '<tr>';
+      echo '<td>'.$csvdata["name"].'</td>';
+      echo '<td>'.$csvdata["age"].'</td>';
+      echo '<td>'.$csvdata["gender"].'</td>';
+      echo '</tr>';
+    }
+    echo '</table>';
+
+
+    // メールフォーム //
+    echo '<form action="mail.php" method="post">';
+
+    // 宛先
+    echo '<p><input type="email" name="email" placeholder="メールアドレスを入力してくだい"></p>';
+
+    // 件名
+    echo '<input type="hidden" name="subject" value="CSVファイル送付">';
+    echo '<p><input type="submit" value="結果をメールで送信"></p>';
+
+    echo '</form>';
+    exit;
+}
+
+?>
+<!--////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!-- <form action="mail.php" method="post">
+  <p><input type="email" name="email" placeholder="メールアドレスを入力してくだい"></p>
+  <p><input type="submit" value="結果をメールで送信"></p>
+</form> -->
+
+
+<?php
+  $table = "";
+  if (isset($_GET['table'])) {
+    $table = csvData();
+  }
+?>
+
+
+
+<?php
+
+
+
+
+
   try
   {
 
@@ -79,75 +143,13 @@ require('../app/functions.php');
   }
 ?>
 
-<!--////////////////////////////////////////////////////////////////////////////////////////////////-->
-<?php
-
-
-  function csvData(){
-  // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
-    $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
-
-    $result = 'SELECT * FROM phpcsv';
-    $csv_stmt = $PDO->query($result);
-    echo '<table border="1">';
-    echo '<tr>';
-    echo '<th>名前</th>';
-    echo '<th>年齢</th>';
-    echo '<th>性別</th>';
-    echo '</tr>';
-    foreach ($csv_stmt as $csvdata) {
-      echo '<tr>';
-      echo '<td>'.$csvdata["name"].'</td>';
-      echo '<td>'.$csvdata["age"].'</td>';
-      echo '<td>'.$csvdata["gender"].'</td>';
-      echo '</tr>';
-    }
-    echo '</table>';
-
-
-    // メールフォーム //
-    echo '<form action="mail.php" method="post">';
-
-    // 宛先
-    echo '<p><input type="email" name="email" placeholder="メールアドレスを入力してくだい"></p>';
-
-    // 件名
-    echo '<input type="hidden" name="subject" value="CSVファイル送付">';
-    echo '<p><input type="submit" value="結果をメールで送信"></p>';
-
-    echo '</form>';
-
-}
-
-?>
-<!--////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!-- <form action="mail.php" method="post">
-  <p><input type="email" name="email" placeholder="メールアドレスを入力してくだい"></p>
-  <p><input type="submit" value="結果をメールで送信"></p>
-</form> -->
-
 <p>結果表示ボタンを押下して内容をご確認ください。</p>
 <form action="" method="get">
   <p><input type="submit" name="table" value="結果を表示"/></p>
   <!--hiddenあとで-->
 </form>
 
-・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
-https://ja.athabasca-foto.com/200063-how-to-call-a-php-EOQKFN
-・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・・
-次これ見る
 
-
-
-
-
-<?php
-  $table = "";
-  if (isset($_GET['table'])) {
-    $table = csvData();
-  }
-  csvData();
-?>
 <?php
   include('../app/_parts/_footer.php');
 
