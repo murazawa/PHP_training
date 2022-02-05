@@ -4,7 +4,7 @@
   include('../app/_parts/_header.php');
   require('../app/functions.php');
 ?>
-<!--////////////////////////////////////////////////////////////////////////////////////////////////-->
+
 <?php
 
 
@@ -45,11 +45,6 @@
 }
 
 ?>
-<!--////////////////////////////////////////////////////////////////////////////////////////////////-->
-<!-- <form action="mail.php" method="post">
-  <p><input type="email" name="email" placeholder="メールアドレスを入力してくだい"></p>
-  <p><input type="submit" value="結果をメールで送信"></p>
-</form> -->
 
 
 <?php
@@ -63,10 +58,6 @@
 
 <?php
 
-
-
-
-
   try
   {
 
@@ -79,8 +70,8 @@
 
 
 
-      date_default_timezone_set('Asia/Tokyo');
-      date_default_timezone_get();
+    date_default_timezone_set('Asia/Tokyo');
+    date_default_timezone_get();
 
     $done = '../done/';
     $error = '../error/';
