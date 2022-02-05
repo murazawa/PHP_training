@@ -63,8 +63,7 @@
 
     // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
     $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
-    // require ('../app/validate.php');
-    // require('../app/resultbtn.php');
+
     // トランザクション処理
     $PDO->beginTransaction();
 
@@ -79,13 +78,17 @@
     $err_msg= "";
     $tmp_file = $_FILES["csvfile"]["tmp_name"];
     $file_name = $_FILES["csvfile"]["name"];
-
+    $log = 'logs.csv';
+    $timestamp = date("Y-m-d H:i:s");
     if (!empty($tmp_file) && is_uploaded_file($tmp_file)) {
 
 
 
       if (pathinfo($file_name, PATHINFO_EXTENSION) != 'csv') {
         move_uploaded_file($tmp_file, $error.'３列方式拡張子失敗_'.$path);
+        $a = fopen($log, "a");
+        fwrite($a, $timestamp." "."Warning:CSVファイルではない". " "."指定したファイルはCSVファイルではありません"."\n");
+        fclose($a);
         exit ('選択ファイルには、CSVタイプのファイルを指定してください。');
       }
 
@@ -96,10 +99,16 @@
       {
         if ($data[1] == "" || $data[2] == "") {
           move_uploaded_file($tmp_file, $error.'３列正式名前、年齢失敗_'.$path);
+          $a = fopen($log, "a");
+          fwrite($a, $timestamp." "."Error:３列正式名前、年齢誤り". " "."年齢、性別に誤りがあります"."\n");
+          fclose($a);
           exit ('名前、年齢は必須項目です。');
         }
         if (isset($data[4])) {
           move_uploaded_file($tmp_file, $error.'３列正式フォーマット失敗_'.$path);
+          $a = fopen($log, "a");
+          fwrite($a, $timestamp." "."Error:３列正式フォーマット誤り". " "."フォーマットに誤りがあります"."\n");
+          fclose($a);
           exit ('正しいフォーマットで入力してください。');
         }
 
@@ -117,6 +126,10 @@
 
 
       if (move_uploaded_file($tmp_file, $done.'３列正式_'.$path)) { // $done.'３列正式.csv'  ３列正式.csvという名前に変更して保存
+        $a = fopen($log, "a");
+        fwrite($a, $timestamp." "."Success:".$file_name." "."指定したCSVファイルをデータベースに登録しました"."\n");
+        fclose($a);
+
         echo 'アップロードに成功しました。</br>';
       } else {
         echo '失敗.....';
