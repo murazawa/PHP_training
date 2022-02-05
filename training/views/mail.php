@@ -67,7 +67,7 @@
   $body .= "Content-Type: text/plain; charset=\"ISO-2022-JP\"\n";
   $body .= "\n";
   $body .= "$message\n";
-  $body = "--$boundary\n";
+  $body .= "--$boundary\n";
 
 
   // text/plain	テキストファイル
