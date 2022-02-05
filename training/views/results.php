@@ -19,12 +19,17 @@
     echo '<th>名前</th>';
     echo '<th>年齢</th>';
     echo '<th>性別</th>';
+    echo '<th>UPDATE</th>';
+    echo '<th>DELETE</th>';
+
     echo '</tr>';
     foreach ($csv_stmt as $csvdata) {
       echo '<tr>';
       echo '<td>'.$csvdata["name"].'</td>';
       echo '<td>'.$csvdata["age"].'</td>';
       echo '<td>'.$csvdata["gender"].'</td>';
+      echo '<td>'.'<a href=edit.php?='.$csvdata["id"].'>更新</a>'.'</td>';
+      echo '<td>'.'<a href=delete.php?='.$csvdata["id"].'>削除</a>'.'</td>';
       echo '</tr>';
     }
     echo '</table>';
@@ -41,6 +46,7 @@
     echo '<p><input type="submit" value="結果をメールで送信"></p>';
 
     echo '</form>';
+    echo '<a href="insert.php">インサート画面へ</a>';
     exit;
 }
 
@@ -154,6 +160,7 @@
   <!--hiddenあとで-->
 </form>
 
+<a href="insert.php">インサート画面へ</a>
 
 <?php
   include('../app/_parts/_footer.php');
