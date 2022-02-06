@@ -28,7 +28,7 @@
       echo '<td>'.$csvdata["name"].'</td>';
       echo '<td>'.$csvdata["age"].'</td>';
       echo '<td>'.$csvdata["gender"].'</td>';
-      echo '<td>'.'<a href=edit.php?='.$csvdata["id"].'>更新</a>'.'</td>';
+      echo '<td>'.'<a href=edit.php?='.$csvdata["id"].'>更新</a>'.'</td>'; //GETでidを渡している
       echo '<td>'.'<a href=delete.php?='.$csvdata["id"].'>削除</a>'.'</td>';
       echo '</tr>';
     }
