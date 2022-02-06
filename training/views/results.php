@@ -46,6 +46,7 @@
     echo '<p><input type="submit" value="結果をメールで送信"></p>';
 
     echo '</form>';
+    echo '<a href="home.php">アップロード画面へ</a>';
     echo '<a href="insert.php">インサート画面へ</a>';
     exit;
 }
@@ -159,7 +160,7 @@
   <p><input type="submit" name="table" value="結果を表示"/></p>
   <!--hiddenあとで-->
 </form>
-
+<a href="home.php">アップロード画面へ</a>
 <a href="insert.php">インサート画面へ</a>
 
 <?php
