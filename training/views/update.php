@@ -17,9 +17,9 @@ try {
 
   $sql = 'UPDATE phpcsv SET name = :name, age = :age, gender = :gender WHERE id = :id';
   $stmt->bindParam( ':id', $id, PDO::PARAM_INT);
-  $stmt->bindParam( ':gender', $gender, PDO::PARAM_STR);
   $stmt->bindParam( ':name', $name, PDO::PARAM_STR);
   $stmt->bindParam( ':age', $age, PDO::PARAM_STR);
+  $stmt->bindParam( ':gender', $gender, PDO::PARAM_STR);
   $stmt->execute();
 
 

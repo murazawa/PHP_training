@@ -1,11 +1,16 @@
 
 <?php
 
+ini_set('display_errors', "On");
+include('../app/_parts/_header.php');
+require('../app/functions.php');
+
 try {
 
   // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
   $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
-
+  $sql = 'SELECT * FROM phpcsv';
+  $stmt = $PDO->query($sql);
   // URLの？以降で渡されるIDをキャッチ
   $id = $_GET['id'];
 
@@ -30,43 +35,24 @@ try {
 
 
 
-} catch (Exception $e) {
+  echo '接続したよ';
+} catch (PDOException $e) {
           echo 'エラーが発生しました。:' . $e->getMessage();
 }
 
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>編集</title>
+<form action="test.php" method="post">
+  <input type="hidden" name="id" value="<?php echo $id; ?>">
+  名前:</br>
+  <input type="text" name="name" id="name" value="<?php echo $name; ?>"></br>
+  年齢:</br>
+  <input type="text" name="age" id="age" value="<?php echo $age; ?>"></br>
+  性別:</br>
+  <input type="text" name="gender" id="gender" value="<?php echo $gender; ?>"></br>
 
-    <div class="contact-form">
-        <h2>編集</h2>
-        <form action="update.php" method="post">
-                <input type="hidden" name="id" value="<?php echo(htmlspecialchars($result->id, ENT_QUOTES, 'UTF-8'));?>">
-            <p>
-                <label>お名前：</label>
-                <input type="text" name="name" value="<?php if (!empty($result['name'])) echo(htmlspecialchars($result->name, ENT_QUOTES, 'UTF-8'));?>">
-            </p>
-            <p>
-                <label>年齢：</label>
-                <input type="text" name="age" value="<?php if (!empty($result['age'])) echo(htmlspecialchars($result->age, ENT_QUOTES, 'UTF-8'));?>">
-            </p>
-
-            <p>
-                <label>性別：</label>
-                <input type="text" name="gender" value="<?php if (!empty($result['gender'])) echo(htmlspecialchars($result->gender, ENT_QUOTES, 'UTF-8'));?>">
-            </p>
-
-            <input type="submit" value="編集する">
-
-        </form>
-    </div>
-        <a href="home.php">投稿一覧へ</a>
-</body>
-</html>
+  <input type="submit" value="更新">
+</form>
 
 <!--
 
