@@ -6,28 +6,26 @@ try {
   // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
   $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
 
+  // URLの？以降で渡されるIDをキャッチ
+  $id = $_GET['id'];
 
-  https://freeks-japan.blog/php/4/12/
-明日これ試す
+  // もし、$idが空であったらhome.phpにリダイレクト
+  // 不正なアクセス対策
+  if (empty($id)) {
+    header("Location: home.php");
+    exit;
+  }
 
-
-
-
-
-
-
-  $stmt = $PDO->prepare('SELECT * FROM phpcsv WHERE id = :id');
-  $params = array(':id' => $_GET["id"]);
-  $stmt->execute($params);
-
-  $result = 0;
-
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-
-
-
+  // 結果が一行で取得できたら
+  if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $id = $row['id'];
+    $name = $row['name'];
+    $age = $row['age'];
+    $gender = $row['gender'];
+  } else {
+    // 対象のIDレコードがない => 不正な画面遷移
+    echo '対象のデータがありません';
+  }
 
 
 
@@ -69,3 +67,22 @@ try {
         <a href="home.php">投稿一覧へ</a>
 </body>
 </html>
+
+<!--
+
+
+
+$stmt = $PDO->prepare('SELECT * FROM phpcsv WHERE id = :id');
+  $params = array(':id' => $_GET["id"]);
+  $stmt->execute($params);
+
+  $result = 0;
+
+  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
+
+
+
+ -->
