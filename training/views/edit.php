@@ -46,7 +46,7 @@ try {
 ?>
 
 <form action="results.php" method="post">
-  <input type="texit" name="id" value="<?php echo $id; ?>">
+  <input type="hidden" name="id" value="<?php echo $id; ?>">
   名前:</br>
   <input type="text" name="name" id="name" value="<?php echo $name; ?>"></br>
   年齢:</br>
