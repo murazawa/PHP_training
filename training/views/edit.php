@@ -51,8 +51,9 @@ try {
   <input type="text" name="name" id="name" value="<?php echo $name; ?>"></br>
   年齢:</br>
   <input type="text" name="age" id="age" value="<?php echo $age; ?>"></br>
-  性別:</br>
-  <input type="text" name="gender" id="gender" value="<?php echo $gender; ?>"></br>
+  性別</br>
+  男<input type="radio" name="gender" id="gender" value="男"> | 
+  女<input type="radio" name="gender" id="gender" value="女"></br>
 
   <input type="submit" value="更新">
 </form>
