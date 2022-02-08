@@ -16,10 +16,6 @@ try {
   echo '更新完了しました';
 
 
-  header("Locatiion: results.php");
-  exit;
-
-
 
 
   echo '接続したよ';

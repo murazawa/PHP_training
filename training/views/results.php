@@ -25,11 +25,11 @@
     echo '</tr>';
     foreach ($csv_stmt as $csvdata) {
       echo '<tr>';
-      echo '<td>'.$csvdata["name"].'</td>';
-      echo '<td>'.$csvdata["age"].'</td>';
-      echo '<td>'.$csvdata["gender"].'</td>';
-      echo '<td>'.'<a href=edit.php?id='.$csvdata["id"].'>更新</a>'.'</td>'; //GETでidを渡している
-      echo '<td>'.'<a href=delete.php?id='.$csvdata["id"].'>削除</a>'.'</td>';
+      echo '<td>'.$csvdata['name'].'</td>';
+      echo '<td>'.$csvdata['age'].'</td>';
+      echo '<td>'.$csvdata['gender'].'</td>';
+      echo '<td>'.'<a href=edit.php?id='.$csvdata['id'].'>更新</a>'.'</td>'; //GETでidを渡している
+      echo '<td>'.'<a href=delete.php?id='.$csvdata['id'].'>削除</a>'.'</td>';
       echo '</tr>';
     }
     echo '</table>';
@@ -147,23 +147,30 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 次, 結果表示ボタンを展開した状態でアップロードからのデータがある時と無いときで処理を分ける
-//  if (empty($id)) {
-  // header("Location: home.php");
-  // exit;
-// }
-// 参考
+ if (empty($_POST['id'])) {
+
+  $table = "";
+  if (isset($_GET['table'])) {
+    $table = csvData();
+  }
+  echo 'ファイルはアップロードされていません';
+
+} else {
+      $sql = 'UPDATE phpcsv SET name = :name, age = :age, gender = :gender WHERE id = :id';
+      $stmt = $PDO->prepare($sql);
+
+      $params = array(':name' => $_POST['name'], ':age' => $_POST['age'], ':gender' => $_POST['gender'], ':id' => $_POST['id']);
+      $stmt->execute($params);
+      echo 'データが更新されました';
+
+      $PDO->commit();
 
 
-
-      echo 'ファイルはアップロードされていません';
-      $table = "";
-      if (isset($_GET['table'])) {
-        $table = csvData();
-      }
+      csvData();
     }
-    $result = 'SELECT * FROM phpcsv';
-    $csv_stmt = $PDO->query($result);
-
+    // $result = 'SELECT * FROM phpcsv';
+    // $csv_stmt = $PDO->query($result);
+  }
     $PDO->commit();
   } catch  (PDOException $e) {
     $PDO->rollback();
@@ -182,3 +189,6 @@
 <?php
   include('../app/_parts/_footer.php');
 
+// 参考 アップデート
+// https://www.flatflag.nir87.com/update-950
+// https://freeks-japan.blog/php/4/12/

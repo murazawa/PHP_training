@@ -9,21 +9,26 @@ try {
 
   // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
   $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
-  $sql = 'SELECT * FROM phpcsv';
+
+
+  $id = $_GET['id'];
+  // $sql = 'SELECT * FROM phpcsv';
+  $sql = "SELECT * FROM phpcsv WHERE id ='".$id."'";
+
   $stmt = $PDO->query($sql);
   // URLの？以降で渡されるIDをキャッチ
-  $id = $_GET['id'];
+
 
   // もし、$idが空であったらhome.phpにリダイレクト
   // 不正なアクセス対策
-  if (empty($id)) {
+  if (empty($_GET['id'])) {
     header("Location: home.php");
     exit;
   }
 
   // 結果が一行で取得できたら
   if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $id = $row['id'];
+    // $id = $row['id'];
     $name = $row['name'];
     $age = $row['age'];
     $gender = $row['gender'];
@@ -33,8 +38,6 @@ try {
   }
 
 
-
-
   echo '接続したよ';
 } catch (PDOException $e) {
           echo 'エラーが発生しました。:' . $e->getMessage();
@@ -42,8 +45,8 @@ try {
 
 ?>
 
-<form action="test.php" method="post">
-  <input type="hidden" name="id" value="<?php echo $id; ?>">
+<form action="results.php" method="post">
+  <input type="texit" name="id" value="<?php echo $id; ?>">
   名前:</br>
   <input type="text" name="name" id="name" value="<?php echo $name; ?>"></br>
   年齢:</br>
