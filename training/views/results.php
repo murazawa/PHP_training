@@ -149,11 +149,37 @@
 // 次, 結果表示ボタンを展開した状態でアップロードからのデータがある時と無いときで処理を分ける
  if (empty($_POST['id'])) {
 
-  $table = "";
-  if (isset($_GET['table'])) {
-    $table = csvData();
+  // $table = "";
+  // if (isset($_GET['table'])) {
+  //   $table = csvData();
+  // }
+  // echo 'ファイルはアップロードされていません';
+  if (!isset($_POST['age']) || $_POST['age'] === ""){
+    echo '送信内容をもう一度ご確認ください。';
+    $PDO->commit();
+    csvData();
   }
-  echo 'ファイルはアップロードされていません';
+
+
+  if (!isset($_POST['name']) || $_POST['name'] === ""){
+    echo '送信内容をもう一度ご確認ください。';
+    $PDO->commit();
+    csvData();
+  }
+
+  $sql = 'INSERT INTO phpcsv (name, age, gender) VALUES (?, ?, ?)';
+  $stmt = $PDO->prepare($sql);
+  $stmt->bindParam(1, $_POST['name'], PDO::PARAM_STR);
+  $stmt->bindParam(2, $_POST['age'], PDO::PARAM_STR);
+  $stmt->bindParam(3, $_POST['gender'], PDO::PARAM_STR);
+  $stmt->execute();
+
+  echo '追加したよ';
+  $PDO->commit();
+  csvData();
+
+
+
 
 } else {
       $sql = 'UPDATE phpcsv SET name = :name, age = :age, gender = :gender WHERE id = :id';
