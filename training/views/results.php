@@ -159,6 +159,18 @@
       $sql = 'UPDATE phpcsv SET name = :name, age = :age, gender = :gender WHERE id = :id';
       $stmt = $PDO->prepare($sql);
 
+      if (empty($_POST['name'])) {
+
+        $sql = 'DELETE FROM phpcsv WHERE id = :id';
+        $stmt = $PDO->prepare($sql);
+        $stmt->execute(array(':id' => $_POST['id']));
+        echo '削除したよ';
+        $PDO->commit();
+        csvData();
+
+
+
+      }
       $params = array(':name' => $_POST['name'], ':age' => $_POST['age'], ':gender' => $_POST['gender'], ':id' => $_POST['id']);
       $stmt->execute($params);
       echo 'データが更新されました';

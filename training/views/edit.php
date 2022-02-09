@@ -37,10 +37,8 @@ try {
     echo '対象のデータがありません';
   }
 
-
-  echo '接続したよ';
 } catch (PDOException $e) {
-          echo 'エラーが発生しました。:' . $e->getMessage();
+  echo 'エラーが発生しました。:' . $e->getMessage();
 }
 
 ?>
@@ -52,7 +50,7 @@ try {
   年齢:</br>
   <input type="text" name="age" id="age" value="<?php echo $age; ?>"></br>
   性別</br>
-  男<input type="radio" name="gender" id="gender" value="男"> | 
+  男<input type="radio" name="gender" id="gender" value="男" checked> | 
   女<input type="radio" name="gender" id="gender" value="女"></br>
 
   <input type="submit" value="更新">
