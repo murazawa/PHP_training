@@ -8,5 +8,5 @@
   <title>課題</title>
 </head>
 <body>
-  <header style="color: blue;"><h1>CSVファイルアップロード</h1></header>
+  <header style="color: blue;"><h1>PHP 課題</h1></header>
 
