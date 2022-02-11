@@ -1,4 +1,4 @@
-
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <?php
 
 ini_set('display_errors', "On");
@@ -40,22 +40,27 @@ try {
 } catch (PDOException $e) {
   echo 'エラーが発生しました。:' . $e->getMessage();
 }
-
 ?>
 
-<form action="results.php" method="post">
-  <input type="hidden" name="id" value="<?php echo $id; ?>">
-  名前:</br>
-  <input type="text" name="name" id="name" value="<?php echo $name; ?>"></br>
-  年齢:</br>
-  <input type="text" name="age" id="age" value="<?php echo $age; ?>"></br>
-  性別</br>
-  男<input type="radio" name="gender" id="gender" value="男" checked> | 
-  女<input type="radio" name="gender" id="gender" value="女"></br>
 
-  <input type="submit" value="更新">
-</form>
 
+
+
+<div class="modal"></div>
+<div class="update">
+  <form action="results.php" method="post">
+    <input type="hidden" name="id" value="<?php echo $id; ?>">
+    名前:</br>
+    <input type="text" name="name" id="name" value="<?php echo $name; ?>"></br>
+    年齢:</br>
+    <input type="text" name="age" id="age" value="<?php echo $age; ?>"></br>
+    性別</br>
+    男<input type="radio" name="gender" id="gender" value="男" checked> | 
+    女<input type="radio" name="gender" id="gender" value="女"></br>
+
+    <input type="submit" value="更新">
+  </form>
+</div>
 <!--
 
 

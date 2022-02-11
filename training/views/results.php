@@ -4,7 +4,8 @@
   include('../app/_parts/_header.php');
   require('../app/functions.php');
 ?>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+</script>
 <?php
 
 
@@ -28,7 +29,7 @@
       echo '<td>'.$csvdata['name'].'</td>';
       echo '<td>'.$csvdata['age'].'</td>';
       echo '<td>'.$csvdata['gender'].'</td>';
-      echo '<td>'.'<a href=edit.php?id='.$csvdata['id'].'>更新</a>'.'</td>'; //GETでidを渡している
+      echo '<td>'.'<a class="edit_modal" href=edit.php?id='.$csvdata['id'].'>更新</a>'.'</td>'; //GETでidを渡している
       echo '<td>'.'<a href=delete.php?id='.$csvdata['id'].'>削除</a>'.'</td>';
       echo '</tr>';
     }
@@ -46,8 +47,31 @@
     echo '<p><input type="submit" value="結果をメールで送信"></p>';
 
     echo '</form>';
-    echo '<a href="home.php">アップロード画面へ</a>';
-    echo '<a href="insert.php">インサート画面へ</a>';
+    echo '<a href="home.php">アップロード画面へ</a> / ';
+    echo '<a href="insert.php">インサート画面へ</a> / ';
+    echo '<button id="scroll">≫</button>';
+
+    echo <<<EOM
+    <script>
+      const scroll = document.querySelector('#scroll');
+
+      scroll.addEventListener('click', scroll_to_top);
+
+      function scroll_to_top(){
+        window.scroll({top: 0, behavior: 'smooth'});
+      };
+
+      $(document).on('click', '.edit_modal', function(){
+
+        scroll_position = $(window).scrollTop();
+        $('body').addClass('fixed').css({ 'top': -scroll_position });
+
+        $('.update').fadeIn();
+        $('.modal').fadeIn();
+      });
+
+    </script>
+    EOM;
     exit;
 }
 
@@ -223,7 +247,6 @@
 </form>
 <a href="home.php">アップロード画面へ</a>
 <a href="insert.php">インサート画面へ</a>
-
 <?php
   include('../app/_parts/_footer.php');
 
