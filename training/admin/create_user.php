@@ -15,7 +15,7 @@
   ];
   $error = [];
 
-
+  connect();
   // フォーム内容のチェック
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -24,6 +24,7 @@
       $error['email'] = 'blank';
     }
 
+
     $form['password'] = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
     if ($form['password'] === '') {
       $error['password'] = 'blank';
@@ -31,12 +32,12 @@
       $error['password'] = 'length';
     }
 
+
 // エラーが起こっていないときの処理 $errorの中が空っぽのとき
     if (empty($error)) {
-
       $_SESSION['form'] = $form;
       header('Location: new.php');
-      exit;
+      exit ('ユーザーの新規登録に失敗しました');
     }
   }
 
