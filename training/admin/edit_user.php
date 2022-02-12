@@ -6,7 +6,7 @@
 
   try {
     $id = $_GET['id'];
-    $sql
+    $sql =
 
 
   } catch (PDOException $e) {
