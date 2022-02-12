@@ -24,7 +24,7 @@
     echo '<td>'.h($user['updated_at']).'</td>';
     echo '<td>'.h($user['created_at']).'</td>';
     echo '<td>'.'<a href=edit_user.php?id='.$user['id'].'>更新</a>'.'</td>';
-    echo '<td>'.'<a href=delete_user.php?id='.$user['id'].'>削除</a>'.'</td>';
+    echo '<td>'.'<a href=delete.php?id='.$user['id'].'>削除</a>'.'</td>';
     echo '</tr>';
   }
   echo '</table>';

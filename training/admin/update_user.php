@@ -16,3 +16,5 @@
   } catch  (PDOException $e) {
     echo 'DB接続エラー:'.$e->getMessage();
   }
+
+
