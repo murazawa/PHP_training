@@ -10,4 +10,4 @@
       echo 'DB接続エラー:'.$e->getMessage();
     }
   }
-  echo connect();
+  // echo connect();
