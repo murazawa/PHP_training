@@ -217,9 +217,6 @@
         echo '削除したよ';
         $PDO->commit();
         csvData();
-
-
-
       }
       $params = array(':name' => $_POST['name'], ':age' => $_POST['age'], ':gender' => $_POST['gender'], ':id' => $_POST['id']);
       $stmt->execute($params);

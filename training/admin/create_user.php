@@ -65,7 +65,6 @@
           <p class="error">* パスワードは4文字以上で入力してください</p>
           <?php endif; ?>
       </dd>
-      <input type="hidden" name="created_at" value>
   <div><input type="submit" value="ユーザーを登録する"/></div>
 </form>
 
