@@ -6,7 +6,7 @@
 
   try {
     $id = $_GET['id'];
-    $sql =
+    $sql ="SELECT * FROM users WHERE id = '".$id."'";
 
 
   } catch (PDOException $e) {
