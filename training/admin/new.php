@@ -11,7 +11,7 @@
 
   if (isset($_SESSION['form'])) {
     $form = $_SESSION['form'];
-    // var_dump($form);
+    // var_dump($form['password']);
 
   } else {
     header('Location: admin.php');
@@ -27,11 +27,19 @@
 
     $sql = 'INSERT INTO users (email, password) VALUES(?, ?)';
     $stmt = connect()->prepare($sql);
+
+
+    // パスワード暗号化
+    $password = password_hash($form['password'], PASSWORD_DEFAULT);
+    var_dump($password);
+    // exit;
+
     $stmt->bindParam(1, $_SESSION['form']['email'], PDO::PARAM_STR);
-    $stmt->bindParam(2, $_SESSION['form']['password'], PDO::PARAM_STR);
+    $stmt->bindParam(2, $password, PDO::PARAM_STR);
     $stmt->execute();
 
 
+    unset($_SESSION['form']);
     echo '<p>ユーザーを追加しました。</p>';
 
 

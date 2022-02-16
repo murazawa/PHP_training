@@ -37,7 +37,7 @@
     if (empty($error)) {
       $_SESSION['form'] = $form;
       header('Location: new.php');
-      exit ('ユーザーの新規登録に失敗しました');
+      exit;
     }
   }
 
@@ -49,7 +49,7 @@
 
       <dt>メールアドレス</dt>
       <dd>
-          <input type="text" name="email" size="35" maxlength="255" value="<?php echo h($form['email']); ?>"/>
+          <input type="email" name="email" size="35" maxlength="255" value="<?php echo h($form['email']); ?>"/>
           <?php if (isset($error['email']) && $error['email'] === 'blank'): ?>
             <p class="error">* メールアドレスを入力してください</p>
           <?php endif; ?>
