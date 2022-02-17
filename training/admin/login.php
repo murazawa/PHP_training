@@ -6,50 +6,42 @@
   require_once('../connect.php');
   require('../app/functions.php');
 
-  // $error = [];
-  // $email = '';
-  // $password ='';
-
-  // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-
-  //   $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-  //   $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-  // }
-  // if ($email === '' || $password === '') {
-  //   $error['login'] = 'blank';
-  // } else {
-  //   // ログインチェック
-  //   $DB = connect();
-  //   $sql = 'SELECT * FROM users WHERE email = :email';
-  //   $stmt = $DB->prepare($sql);
-  //   if (!$stmt) {
-  //     die($DB->error);
-  //   }
-    // var_dump($_POST['email']);
-    // echo $email;
-    echo $_SESSION['form']['email'];
 
 
 
-    // $stmt->bindVale(':email', $email);
-    // $stmt->execute();
+  $result = false;
+  if (isset($_SESSION['form'])) {
+    $login_form = $_SESSION['form'];
+    $password = $login_form['password'];
 
-    // $users = fetch();
-    // if (password_verity($_POST['password']))
-    // var_dump($hash);
+  } else {
+    header('Location: admin.php');
+    exit;
+  }
+
+  try {
+  $sql = "SELECT * FROM users WHERE email = ?";
+
+  $array = [];
+  $array[] = $login_form['email'];
+
+  $stmt = connect()->prepare($sql);
+  $stmt->execute($array);
+  $user = $stmt->fetch();
+  if (password_verify($password, $user['password'])) {
+    session_regenerate_id(true);
+    $_SESSION['login_user'] = $user;
+    $result = true;
+    echo 'ログイン成功';
+
+  } else {
+    echo 'ログイン失敗';
+  }
 
 
-
-    // // $stmt->execute();
-    // // $stmt->bind_result($id, $email, $hash);
-    // // $stmt->fetch();
-
-    // var_dump($hash);
-    // // echo 'OK';
-
-  // }
+} catch (PDOException $e) {
+  echo 'エラーが発生しました。:' . $e->getMessage();
+}
 
 ?>
 
-ログインしたよ
