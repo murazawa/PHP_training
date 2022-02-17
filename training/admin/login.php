@@ -32,8 +32,8 @@
     session_regenerate_id(true);
     $_SESSION['login_user'] = $user;
     $result = true;
-    echo 'ログイン成功';
-
+    $_SESSION['msg'] = 'ログインしました。';
+    header('Location: admin.php');
   } else {
     echo 'ログイン失敗';
   }
