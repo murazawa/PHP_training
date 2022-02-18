@@ -1,12 +1,22 @@
 <?php
+
   session_start();
   ini_set('display_errors', "On");
   include('../app/_parts/_header.php');
+
+  if(isset($_SESSION['login_user']['email'])){
+    echo $_SESSION['login_user']['email']." でログインしています";
+  }else{
+    header('Location:login_form.php');
+    exit;
+  }
+
 ?>
+
+
+<p>php.iniのsession.gc_maxlifetimよりセッション時間は30分切れます。</p>
+
 <h1>ユーザー管理画面</h1>
-<?php if (isset($_SESSION['msg']) !== ""): ?>
-  <?php echo $_SESSION['msg']; ?>
-<?php endif; ?>
 
 <p><a href="create_user.php">ユーザー新規登録へ</a></p>
 <p><a href="users_list.php">ユーザーリストへ</a></p>

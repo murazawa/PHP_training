@@ -7,6 +7,13 @@
   require_once('../connect.php');
   require('../app/functions.php');
 
+  if (isset($_SESSION['login_user']['email'])) {
+    header('Location: admin.php');
+  }
+
+
+
+
   $login_form = [
     'email' => '',
     'password' => ''
