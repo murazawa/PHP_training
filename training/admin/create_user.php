@@ -6,6 +6,11 @@
   include('../app/_parts/_header.php');
   require_once('../connect.php');
   require('../app/functions.php');
+  require('../app/user_session.php');
+
+  sessionTime();
+  sessionCheck();
+
 
   // noticeやWarningは初期化やissetである程度解決できる
   // 配列の値を初期化

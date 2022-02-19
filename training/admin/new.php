@@ -5,14 +5,16 @@
   include('../app/_parts/_header.php');
   require_once('../connect.php');
   require('../app/functions.php');
+  require('../app/user_session.php');
 
+  sessionTime();
+  sessionCheck();
 
 
 
   if (isset($_SESSION['form'])) {
     $form = $_SESSION['form'];
     // var_dump($form['password']);
-
   } else {
     header('Location: admin.php');
     exit('不正なアクセスがありました。');
@@ -31,9 +33,6 @@
 
     // パスワード暗号化
     $password = password_hash($form['password'], PASSWORD_DEFAULT);
-    var_dump($password);
-    // exit;
-
     $stmt->bindParam(1, $_SESSION['form']['email'], PDO::PARAM_STR);
     $stmt->bindParam(2, $password, PDO::PARAM_STR);
     $stmt->execute();

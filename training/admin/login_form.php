@@ -9,6 +9,8 @@
 
   if (isset($_SESSION['login_user']['email'])) {
     header('Location: admin.php');
+  } else {
+    echo 'ログアウトしました。';
   }
 
 

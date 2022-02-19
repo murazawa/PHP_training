@@ -1,8 +1,14 @@
 <?php
+  session_start();
   ini_set('display_errors', "On");
   include('../app/_parts/_header.php');
   require_once('../connect.php');
   require('../app/functions.php');
+  require('../app/user_session.php');
+
+  sessionTime();
+  sessionCheck();
+
 
   $sql = 'SELECT * FROM users';
   $users = connect()->query($sql);
