@@ -61,21 +61,8 @@ try {
     <input type="submit" value="更新">
   </form>
 </div>
-<!--
-
-
-
-$stmt = $PDO->prepare('SELECT * FROM phpcsv WHERE id = :id');
-  $params = array(':id' => $_GET["id"]);
-  $stmt->execute($params);
-
-  $result = 0;
-
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 
 
 
-
- -->

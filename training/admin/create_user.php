@@ -58,7 +58,6 @@
           <?php if (isset($error['email']) && $error['email'] === 'blank'): ?>
             <p class="error">* メールアドレスを入力してください</p>
           <?php endif; ?>
-          <p class="error">* 指定されたメールアドレスはすでに登録されています</p>
 
       <dt>パスワード(4文字以上)</dt>
       <dd>
