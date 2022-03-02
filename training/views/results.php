@@ -3,10 +3,6 @@
   ini_set('display_errors', "On");
   include('../app/_parts/_header.php');
   require('../app/functions.php');
-?>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
-</script>
-<?php
 
 
   function csvData(){
@@ -29,8 +25,8 @@
       echo '<td>'.$csvdata['name'].'</td>';
       echo '<td>'.$csvdata['age'].'</td>';
       echo '<td>'.$csvdata['gender'].'</td>';
-      echo '<td>'.'<a class="edit_modal" href=edit.php?id='.$csvdata['id'].'>更新</a>'.'</td>'; //GETでidを渡している
-      echo '<td>'.'<a href=delete.php?id='.$csvdata['id'].'>削除</a>'.'</td>';
+      echo '<td><a href=?id='.$csvdata['id'].'update'.'>更新</a></td>'; //GETでidを渡している
+      echo '<td><a href=?id='.$csvdata['id'].'delete'.'>削除</a></td>';
       echo '</tr>';
     }
     echo '</table>';
@@ -49,33 +45,101 @@
     echo '</form>';
     echo '<a href="home.php">アップロード画面へ</a> / ';
     echo '<a href="insert.php">インサート画面へ</a> / ';
-    echo '<button id="scroll">≫</button>';
+    echo '<a id="scroll" href="javascript:topScroll()">≫</a>';
 
-    echo <<<EOM
-    <script>
-      const scroll = document.querySelector('#scroll');
-
-      scroll.addEventListener('click', scroll_to_top);
-
-      function scroll_to_top(){
-        window.scroll({top: 0, behavior: 'smooth'});
-      };
-
-      $(document).on('click', '.edit_modal', function(){
-
-        scroll_position = $(window).scrollTop();
-        $('body').addClass('fixed').css({ 'top': -scroll_position });
-
-        $('.update').fadeIn();
-        $('.modal').fadeIn();
-      });
-
-    </script>
-    EOM;
     exit;
 }
 
+
+
+  $url = $_SERVER['REQUEST_URI'];
+
+  try {
+
+    // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+    $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
+  
+    // URLにidがあればモーダルからupdate処理
+    if(strstr($url,'update')) {
+
+      $id = $_GET['id'];
+      $sql = "SELECT * FROM phpcsv WHERE id ='".$id."'";
+
+      $stmt = $PDO->query($sql);
+
+      if (empty($_GET['id'])) {
+        header("Location: home.php");
+        exit;
+      }
+
+      if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $name = $row['name'];
+        $age = $row['age'];
+        $gender = $row['gender'];
+
+      } else {
+        echo '対象のデータがありません';
+      }
+    } elseif (strstr($url, 'delete')) {
+
+      try {
+        // $PDO = new PDO('mysql:host=localhost;dbname=myapp;charset=utf8','root'); // XAMPP環境
+        $PDO = new PDO('mysql:dbname=myapp;host=localhost;charset=utf8','root', 'root'); // MAMP環境
+
+        $id = $_GET['id'];
+        $sql = "SELECT * FROM phpcsv WHERE id ='".$id."'";
+        $stmt = $PDO->query($sql);
+        if (empty($_GET['id'])) {
+          header("Location: home.php");
+          exit;
+        }
+        if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+          $name = $row['name'];
+          $age = $row['age'];
+          $gender = $row['gender'];
+        } else {
+          echo '対象のデータがアリません。';
+        }
+      } catch (PDOExeption $e) {
+        echo '失敗'.$e->getMessage();
+      }
+    }
+
+  } catch (PDOException $e) {
+    echo 'エラーが発生しました。:' . $e->getMessage();
+  }
 ?>
+  <?php if(strstr($url,'update')): ?>
+    <div class="update">
+      <form action="results.php" method="post">
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
+        名前:</br>
+        <input type="text" name="name" id="name" value="<?php echo $name; ?>"></br>
+        年齢:</br>
+        <input type="text" name="age" id="age" value="<?php echo $age; ?>"></br>
+        性別</br>
+        男<input type="radio" name="gender" id="gender" value="男" checked> | 
+        女<input type="radio" name="gender" id="gender" value="女"></br>
+        <input type="submit" value="更新">
+      </form>
+    </div>
+  <div class="csv"><?php csvData(); ?></div>
+
+  <?php elseif(strstr($url, 'delete')): ?>
+    <div class="update">
+      <form action="results.php" method="post">
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
+        名前: <?php echo $name; ?></br>
+        年齢: <?php echo $age; ?></br>
+        性別: <?php echo $age; ?></br>
+        <p>本当に削除しますか？</p>
+        <button type="button" onclick="history.back()">いいえ</button> <button type="submit">はい</button>
+      </form>
+    </div>
+    <div class="csv"><?php csvData(); ?></div>
+
+  <?php endif; ?>
+
 
 
 <?php
@@ -173,11 +237,6 @@
 // 次, 結果表示ボタンを展開した状態でアップロードからのデータがある時と無いときで処理を分ける
  if (empty($_POST['id'])) {
 
-  // $table = "";
-  // if (isset($_GET['table'])) {
-  //   $table = csvData();
-  // }
-  // echo 'ファイルはアップロードされていません';
   if (!isset($_POST['age']) || $_POST['age'] === ""){
     echo '送信内容をもう一度ご確認ください。';
     $PDO->commit();
@@ -227,8 +286,7 @@
 
       csvData();
     }
-    // $result = 'SELECT * FROM phpcsv';
-    // $csv_stmt = $PDO->query($result);
+
   }
     $PDO->commit();
   } catch  (PDOException $e) {
