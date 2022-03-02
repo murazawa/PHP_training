@@ -1,5 +1,3 @@
-// document.write(`Hello`);
-// document.write(`<h1>Hello</h1>`);
 
 function topScroll() {
   if (document.scrollingElement.scrollTop < 30) {
