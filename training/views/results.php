@@ -131,7 +131,7 @@
         <input type="hidden" name="id" value="<?php echo $id; ?>">
         名前: <?php echo $name; ?></br>
         年齢: <?php echo $age; ?></br>
-        性別: <?php echo $age; ?></br>
+        性別: <?php echo $gender; ?></br>
         <p>本当に削除しますか？</p>
         <button type="button" onclick="history.back()">いいえ</button> <button type="submit">はい</button>
       </form>

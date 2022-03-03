@@ -88,6 +88,7 @@
 
   if(mb_send_mail($to, $subject, $body, $head)){
     echo '<p>アップロードしたデータをメールでお送りました。</p>';
+    echo '<a href="results.php">一覧画面へ</a>';
   } else {
     echo '<p>メールの送信に失敗しました。</p>';
   }
